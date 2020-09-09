@@ -16,10 +16,12 @@ main(int argc, char *argv[]) {
     root = readFileToTree(root, dataFile);
     
     int depth=0;
+    printf("LVR:\n");
     LVR_Print(root, &depth);
-    printf("\n\n");
+    printf("\nVLR:\n");
     VLR_Print(root, &depth);
     
+    printf("\n\n");
     printf("%s", root->listData->head->data->location);
     printf("%s", root->left->listData->head->data->location);
     printf("%s", root->right->listData->head->data->location);
@@ -31,12 +33,12 @@ main(int argc, char *argv[]) {
     
     LRV_Free(root);
     free(root);
-    // /* Clear file content if not empty */
-    // FILE * fp;
-    // fp = fopen(outputFile, "w");
-    // fp=freopen(NULL,"w",fp);
-    // assert(fp!=NULL);
-    // 
+    /* Clear file content if not empty */
+    FILE * fp;
+    fp = fopen(outputFile, "w");
+    fp=freopen(NULL,"w",fp);
+    assert(fp!=NULL);
+    
     // int foundNum;
     // char keyWord[MAX_FIELD_LEN+1];
     // List_t * result;
@@ -75,7 +77,7 @@ main(int argc, char *argv[]) {
     //     freeListNode(result);
     //     
     // }
-    // fclose(fp);
+    fclose(fp);
     // 
     // /* Free the linked list that stores whole data */
     // freeLinkedList(list);
