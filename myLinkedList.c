@@ -1,6 +1,6 @@
 /** ***********************
-* Program written by Alvin Chen (nuoyanc@student.unimelb.edu.au) 8/21/2020
-* 2020s2 UNIMELB COMP20003 assignment 1
+* Program written by Alvin Chen (nuoyanc@student.unimelb.edu.au) 9/2020
+* 2020s2 UNIMELB COMP20003 assignment 2
 */
 
 #include "myLinkedList.h"
@@ -105,6 +105,20 @@ pushToLinearList(List_t *list, Clue_t *data){
 }
 
 
+void
+printList(List_t *list) {
+    assert(list!=NULL);
+    Node_t *cur;
+    
+    cur = list->head;
+    while (cur) {
+        printf("%s\t",cur->data->location);
+        cur = cur->next;
+    }
+    printf("\n");
+}
+
+
 
 /**************************************************************/
 
@@ -120,37 +134,49 @@ KDT_t * createKDT(Clue_t * data){
     assert(root != NULL);
     root -> left = NULL;
     root -> right = NULL;
-    root -> data = data;
+    root -> listData = creatLinkedList();
+    pushToLinearList(root -> listData, data);
     return root;
 }
 
-KDT_t * addToKDT(KDT_t * root, KDT_t * newNode, int axis){
+KDT_t * addToKDT(KDT_t * root, Clue_t * newNode, int axis){
     if (root == NULL){
-        printf("if (root == NULL)\n");
-        return newNode;
+        //printf("if (root == NULL)\n");
+        return createKDT(newNode);
     }
     
-    if (cmp(newNode, root, axis?0:1)){
-        printf("LEFT\n");
+    if(cmp(newNode, root, axis?0:1) == -1){
+        //printf("Equal\n");
+        pushToLinearList(root -> listData, newNode);
+        
+    }else if (cmp(newNode, root, axis?0:1)){
+        //printf("LEFT\n");
         root->left = addToKDT(root->left, newNode, axis?0:1);
+        
     }else{
-        printf("Right\n");
+        //printf("Right\n");
         root->right = addToKDT(root->right, newNode, axis?0:1);
+       
     }
     
-    printf("ROOOT\n");
+    //printf("ROOT\n");
     return root;
     
 }
 
 
-int cmp(KDT_t * a, KDT_t * b, int axis){
-    Point_t p1 = getClueLocation(a->data);
-    Point_t p2 = getClueLocation(b->data);
+int cmp(Clue_t * newData, KDT_t * curRoot, int axis){
+    Point_t new_p = getClueLocation(newData);
+    Point_t curRoot_p = getClueLocation(curRoot->listData->head->data);
+    
+    if(new_p.x == curRoot_p.x && new_p.y == curRoot_p.y){
+        return -1;
+    }
+    
     if(axis){
-        return p1.x < p2.x;
+        return new_p.x < curRoot_p.x;
     }else{
-        return p1.y < p2.y;
+        return new_p.y < curRoot_p.y;
     }
 }
 
@@ -166,4 +192,46 @@ Point_t getClueLocation(Clue_t *data){
     p.y = d2;
     return p;
 
+}
+
+void VLR_Print(KDT_t * root, int *depth){
+    *depth += 1;
+    if (root == NULL){
+        *depth -= 1;
+        return;
+    }
+    printf("At depth %d: ", *depth);
+    printList(root->listData);
+    VLR_Print(root->left, depth);
+    VLR_Print(root->right, depth);
+    *depth -= 1;
+}
+
+void LVR_Print(KDT_t * root, int *depth){
+    *depth += 1;
+    if (root == NULL){
+        *depth -= 1;
+        return;
+    }
+    
+    VLR_Print(root->left, depth);
+    printf("At depth %d: ", *depth);
+    printList(root->listData);
+    VLR_Print(root->right, depth);
+    *depth -= 1;
+}
+
+void LRV_Free(KDT_t * root){
+    if (root == NULL){
+        return;
+    }
+    LRV_Free(root->left);
+    LRV_Free(root->right);
+    freeKDT_Node(root);
+}
+
+void freeKDT_Node(KDT_t * root){
+    freeLinkedList(root->listData);
+    free(root->left);
+    free(root->right);
 }

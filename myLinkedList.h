@@ -1,6 +1,6 @@
 /** ***********************
-* Program written by Alvin Chen (nuoyanc@student.unimelb.edu.au) 8/21/2020
-* 2020s2 UNIMELB COMP20003 assignment 1
+* Program written by Alvin Chen (nuoyanc@student.unimelb.edu.au) 9/2020
+* 2020s2 UNIMELB COMP20003 assignment 2
 */
 
 #ifndef myLinkedList
@@ -35,7 +35,7 @@ typedef struct KDT KDT_t;
 struct KDT{
     KDT_t * left;
     KDT_t * right;
-    Clue_t * data;
+    List_t * listData;
 };
 
 // Function prototypes
@@ -46,14 +46,19 @@ int linearSearch(char *keyWord, List_t *src, List_t *result);
 void putLinkedList(List_t *src, FILE *fp);
 void freeLinkedList(List_t *list);
 void freeListNode(List_t *list);
+void printList(List_t *list);
 
 
 // Function prototypes
 Point_t * Point(double x, double y);
 KDT_t * createKDT(Clue_t * data);
-KDT_t * addToKDT(KDT_t * root, KDT_t * newNode, int axis);
+KDT_t * addToKDT(KDT_t * root, Clue_t * newNode, int axis);
 
 List_t *pushToKDT(List_t *list, Clue_t *data);
 Point_t getClueLocation(Clue_t *data);
-int cmp(KDT_t * a, KDT_t * b, int axis);
+int cmp(Clue_t * newData, KDT_t * curRoot, int axis);
+void VLR_Print(KDT_t * root, int *depth);
+void LRV_Free(KDT_t * root);
+void freeKDT_Node(KDT_t * root);
+void LVR_Print(KDT_t * root, int *depth);
 #endif

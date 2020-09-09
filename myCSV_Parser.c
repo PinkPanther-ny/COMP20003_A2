@@ -1,6 +1,6 @@
 /** ***********************
-* Program written by Alvin Chen (nuoyanc@student.unimelb.edu.au) 8/21/2020
-* 2020s2 UNIMELB COMP20003 assignment 1
+* Program written by Alvin Chen (nuoyanc@student.unimelb.edu.au) 9/2020
+* 2020s2 UNIMELB COMP20003 assignment 2
 */
 
 #include "myCSV_Parser.h"
@@ -122,7 +122,6 @@ readFileToTree(KDT_t *dest, char *filename){
     // Then come back again to take another line
     char *fields[FIELD_NUM];
     
-    printf("%d\n\n\n",dest==NULL);
     int lineIndex;
     char line[MAX_LINE_LEN+1];
     
@@ -137,10 +136,8 @@ readFileToTree(KDT_t *dest, char *filename){
         for(int i=0;i<FIELD_NUM;i++){
             fields[i] = splitOneToken(line, &lineIndex);
         }
-        KDT_t * tmp = createKDT(storeFields(fields));
-        dest = addToKDT(dest, tmp, 0);
         
-        printf("%p\n%p\n%p\n\n",dest, tmp, dest->right);
+        dest = addToKDT(dest, storeFields(fields), 0);
     }
     
     fclose(fp);

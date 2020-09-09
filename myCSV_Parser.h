@@ -1,6 +1,6 @@
 /** ***********************
-* Program written by Alvin Chen (nuoyanc@student.unimelb.edu.au) 8/21/2020
-* 2020s2 UNIMELB COMP20003 assignment 1
+* Program written by Alvin Chen (nuoyanc@student.unimelb.edu.au) 9/2020
+* 2020s2 UNIMELB COMP20003 assignment 2
 */
 
 

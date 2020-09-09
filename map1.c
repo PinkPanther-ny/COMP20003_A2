@@ -1,6 +1,6 @@
 /** ***********************
-* Program written by Alvin Chen (nuoyanc@student.unimelb.edu.au) 8/21/2020
-* 2020s2 UNIMELB COMP20003 assignment 1
+* Program written by Alvin Chen (nuoyanc@student.unimelb.edu.au) 9/2020
+* 2020s2 UNIMELB COMP20003 assignment 2
 */
 
 #include "myCLUE.h"
@@ -15,23 +15,22 @@ main(int argc, char *argv[]) {
     KDT_t * root = NULL;
     root = readFileToTree(root, dataFile);
     
-    //printf("%d\n", total);
-    printf("[%p]\n", root);
+    int depth=0;
+    LVR_Print(root, &depth);
+    printf("\n\n");
+    VLR_Print(root, &depth);
     
+    printf("%s", root->listData->head->data->location);
+    printf("%s", root->left->listData->head->data->location);
+    printf("%s", root->right->listData->head->data->location);
     
-    //printf("%p", root->left->data);
-    //printf("%s", root->left->data->location);
-    printf("\t%s", root->data->location);
-    printf("\t%s", root->right->data->location);
-    printf("\t%s", root->right->right->data->location);
-    printf("\t%s", root->right->right->left->data->location);
+    printf("%s", root->right->left->listData->head->data->location);
+    printf("%s", root->right->left->left->listData->head->data->location);
+    printf("%s", root->right->left->right->listData->head->data->location);
+    printf("%s", root->right->left->right->listData->head->next->data->location);
     
-    printf("\t%s", root->right->right->right->data->location);
-    /*
-    printf("\t%s", root->right->right->data->location);
-    printf("\n%p", root->left->left);
-    
-    printf("\n%d", root->left->right==NULL);*/
+    LRV_Free(root);
+    free(root);
     // /* Clear file content if not empty */
     // FILE * fp;
     // fp = fopen(outputFile, "w");

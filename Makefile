@@ -1,5 +1,5 @@
- # Makefile written by NuoyanChen 8/21/2020
-# 2020s2 UNIMELB COMP20003 assignment 1
+ # Makefile written by NuoyanChen 9/2020
+# 2020s2 UNIMELB COMP20003 assignment 2
 
 
 # Not sure if you markers will do the test manully, so I commented it out
