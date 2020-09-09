@@ -87,7 +87,7 @@ putLinkedList(List_t *src, FILE * fp){
 
 /* Push an CLUE item to the head of the list */
 List_t *
-push(List_t *list, Clue_t *data){
+pushToLinearList(List_t *list, Clue_t *data){
     Node_t *newNode = (Node_t*)malloc(sizeof(Node_t));
     assert(newNode != NULL);
     
@@ -105,18 +105,65 @@ push(List_t *list, Clue_t *data){
 }
 
 
-int 
-linearSearch(char *keyWord, List_t *src, List_t *result){
-    int found = 0;
-    Node_t * ptr = src->head;
-    while(ptr != NULL){
-    
-        if (strcmp(ptr->data->tradingName, keyWord)==0){
-            push(result, ptr->data);
-            found++;
-        }
-        ptr = ptr->next;
+
+/**************************************************************/
+
+Point_t * Point(double x, double y){
+    Point_t * this = (Point_t *)malloc(sizeof(Point_t));
+    this -> x = x;
+    this -> y = y;
+    return this;
+}
+
+KDT_t * createKDT(Clue_t * data){
+    KDT_t * root = (KDT_t *)malloc(sizeof(KDT_t));
+    assert(root != NULL);
+    root -> left = NULL;
+    root -> right = NULL;
+    root -> data = data;
+    return root;
+}
+
+KDT_t * addToKDT(KDT_t * root, KDT_t * newNode, int axis){
+    if (root == NULL){
+        printf("if (root == NULL)\n");
+        return newNode;
     }
-    return found;
     
+    if (cmp(newNode, root, axis?0:1)){
+        printf("LEFT\n");
+        root->left = addToKDT(root->left, newNode, axis?0:1);
+    }else{
+        printf("Right\n");
+        root->right = addToKDT(root->right, newNode, axis?0:1);
+    }
+    
+    printf("ROOOT\n");
+    return root;
+    
+}
+
+
+int cmp(KDT_t * a, KDT_t * b, int axis){
+    Point_t p1 = getClueLocation(a->data);
+    Point_t p2 = getClueLocation(b->data);
+    if(axis){
+        return p1.x < p2.x;
+    }else{
+        return p1.y < p2.y;
+    }
+}
+
+
+Point_t getClueLocation(Clue_t *data){
+    Point_t p;
+    char* str = data->location;
+    char* pEnd;
+    double d1, d2;
+    d1 = strtod (str+1, &pEnd);
+    d2 = strtod (pEnd+1, NULL);
+    p.x = d1;
+    p.y = d2;
+    return p;
+
 }

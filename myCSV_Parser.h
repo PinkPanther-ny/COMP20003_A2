@@ -17,6 +17,6 @@
 
 // Function prototypes
 char *splitOneToken(char *line, int * lineIndex);
-void readFileToList(List_t *dest, char *filename);
-
+int readFileToList(List_t *dest, char *filename);
+KDT_t * readFileToTree(KDT_t *dest, char *filename);
 #endif

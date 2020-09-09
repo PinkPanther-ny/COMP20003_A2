@@ -13,6 +13,7 @@
 
 #define MAX_LINE_LEN 512
 #define MAX_FIELD_LEN 128
+#define MAX_DECIMAL 30
 #define FIELD_NUM 11
 
 #define FIELD_CENSUS_YEAR 0
@@ -61,5 +62,4 @@ Clue_t *Clue(
     );
 void putClueInfo(Clue_t *clue, FILE * fp, char *keyWord);
 Clue_t *storeFields(char *fields[]);
-
 #endif

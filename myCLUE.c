@@ -94,6 +94,6 @@ storeFields(char *fields[]){
         fields[FIELD_LOCATION]
     
     );
-    
+    //printf("%s\t%s\n",fields[FIELD_TRADING_NAME],fields[FIELD_LOCATION]);
     return clue;
 }

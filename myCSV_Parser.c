@@ -42,7 +42,7 @@ char *splitOneToken(char *line, int * lineIndex){
                 // jump to the comma after the quote
                 *lineIndex = i + 2;
                 
-                //dest = (char *)realloc(dest, (strlen(dest) + 1) * sizeof(char));
+                dest = (char *)realloc(dest, (strlen(dest) + 1) * sizeof(char));
                 return dest;
             }
         }else{
@@ -64,7 +64,7 @@ char *splitOneToken(char *line, int * lineIndex){
                 // jump to next comma
                 *lineIndex = i + 1;
                 
-                //dest = (char *)realloc(dest, (strlen(dest) + 1) * sizeof(char));
+                dest = (char *)realloc(dest, (strlen(dest) + 1) * sizeof(char));
                 return dest;
             }
         }
@@ -74,7 +74,7 @@ char *splitOneToken(char *line, int * lineIndex){
 }
 
 /* Reading a CSV file, store to a linked list */
-void 
+int
 readFileToList(List_t *dest, char *filename){
     int lineCount = 0;
     FILE *fp = fopen(filename, "r");
@@ -101,10 +101,50 @@ readFileToList(List_t *dest, char *filename){
         for(int i=0;i<FIELD_NUM;i++){
             fields[i] = splitOneToken(line, &lineIndex);
         }
-        push(dest, storeFields(fields));
+        pushToLinearList(dest, storeFields(fields));
     }
     
     fclose(fp);
     printf("There are %d lines.\n", lineCount);
     printf("\n-----------END readCSV--------------\n");
+    return lineCount;
+}
+
+KDT_t *
+readFileToTree(KDT_t *dest, char *filename){
+    int lineCount = 0;
+    FILE *fp = fopen(filename, "r");
+    assert(fp != NULL);
+    
+    // fields is like a truck, takes pointers that point to 
+    // address in the heap of each token in a line
+    // and unload them using storefields(), push to the whole list, 
+    // Then come back again to take another line
+    char *fields[FIELD_NUM];
+    
+    printf("%d\n\n\n",dest==NULL);
+    int lineIndex;
+    char line[MAX_LINE_LEN+1];
+    
+    // Remove header line of CSV
+    fgets(line, MAX_LINE_LEN, fp);
+    printf("\n----------Start readCSV-------------\n");
+    // Iterate over each lines of the csv file
+    while(fgets(line, MAX_LINE_LEN, fp)!=NULL){
+        lineCount++;
+        lineIndex=0;
+        
+        for(int i=0;i<FIELD_NUM;i++){
+            fields[i] = splitOneToken(line, &lineIndex);
+        }
+        KDT_t * tmp = createKDT(storeFields(fields));
+        dest = addToKDT(dest, tmp, 0);
+        
+        printf("%p\n%p\n%p\n\n",dest, tmp, dest->right);
+    }
+    
+    fclose(fp);
+    printf("There are %d lines.\n", lineCount);
+    printf("\n-----------END readCSV--------------\n");
+    return dest;
 }
