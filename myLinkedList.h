@@ -25,12 +25,6 @@ typedef struct List{
     
 }List_t;
 
-typedef struct Point{
-    double x;
-    double y;
-}Point_t;
-
-
 typedef struct KDT KDT_t;
 struct KDT{
     KDT_t * parent;
@@ -56,7 +50,6 @@ KDT_t * createKDT(Clue_t * data);
 KDT_t * addToKDT(KDT_t * root, Clue_t * newNode, int axis);
 
 List_t *pushToKDT(List_t *list, Clue_t *data);
-Point_t getClueLocation(Clue_t *data);
 int cmp(Clue_t * newData, KDT_t * curRoot, int axis);
 void VLR_Print(KDT_t * root, int *depth);
 void LRV_Free(KDT_t * root);

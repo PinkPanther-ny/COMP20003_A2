@@ -9,9 +9,10 @@
 # < $(KEYWORD_FILE)
 CC = gcc
 CFLAGS = -Wall -g
+LDFLAGS = -lm
 
 VALGRIND = valgrind
-VALGRINDFLAG = --leak-check=full --read-var-info=no  --track-origins=yes --tool=memcheck
+VALGRINDFLAG = --leak-check=full --read-var-info=no --track-origins=yes --tool=memcheck
 
 PROGRAM = map1
 SOURCE_FILES = $(shell find . -maxdepth 1 -type f -name '*.c')
@@ -45,4 +46,4 @@ valgrind: build clean
 	$(VALGRIND) $(VALGRINDFLAG) ./$(PROGRAM) $(DATA_FILE) $(OUTPUT_FILE) < $(KEYWORD_FILE)
 
 $(PROGRAM): $(OBJECT_FILES)
-	$(CC) -o $@ $^
+	$(CC) -o $@ $^ $(LDFLAGS)

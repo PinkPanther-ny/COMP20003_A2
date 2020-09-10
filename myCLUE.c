@@ -97,3 +97,26 @@ storeFields(char *fields[]){
     //printf("%s\t%s\n",fields[FIELD_TRADING_NAME],fields[FIELD_LOCATION]);
     return clue;
 }
+
+
+
+Point_t getClueLocation(Clue_t *data){
+    Point_t p;
+    char* str = data->location;
+    char* pEnd;
+    double d1, d2;
+    d1 = strtod (str+1, &pEnd);
+    d2 = strtod (pEnd+1, NULL);
+    p.x = d1;
+    p.y = d2;
+    return p;
+
+}
+
+double distanceTo(Clue_t *clue1, Clue_t *clue2){
+    Point_t p1 = getClueLocation(clue1);
+    Point_t p2 = getClueLocation(clue2);
+    
+    return sqrt( pow((p1.x - p2.x), 2) + pow((p1.y - p2.y), 2) );
+    
+}

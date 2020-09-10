@@ -184,20 +184,6 @@ int cmp(Clue_t * newData, KDT_t * curRoot, int axis){
     }
 }
 
-
-Point_t getClueLocation(Clue_t *data){
-    Point_t p;
-    char* str = data->location;
-    char* pEnd;
-    double d1, d2;
-    d1 = strtod (str+1, &pEnd);
-    d2 = strtod (pEnd+1, NULL);
-    p.x = d1;
-    p.y = d2;
-    return p;
-
-}
-
 void VLR_Print(KDT_t * root, int *depth){
     *depth += 1;
     if (root == NULL){

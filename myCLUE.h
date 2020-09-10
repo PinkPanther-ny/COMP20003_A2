@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include <assert.h>
 
 #define MAX_LINE_LEN 512
@@ -54,6 +55,12 @@ typedef struct CLUE{
     
 }Clue_t;
 
+typedef struct Point{
+    double x;
+    double y;
+}Point_t;
+
+
 // Function prototypes
 Clue_t *Clue(
     char* censusYear, char* blockID, char* propertyID, char* basePropertyID,
@@ -62,4 +69,6 @@ Clue_t *Clue(
     );
 void putClueInfo(Clue_t *clue, FILE * fp, char *keyWord);
 Clue_t *storeFields(char *fields[]);
+Point_t getClueLocation(Clue_t *data);
+double distanceTo(Clue_t *clue1, Clue_t *clue2);
 #endif
