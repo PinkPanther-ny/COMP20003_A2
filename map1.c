@@ -20,16 +20,22 @@ main(int argc, char *argv[]) {
     LVR_Print(root, &depth);
     printf("\nVLR:\n");
     VLR_Print(root, &depth);
-    
+    /*
     printf("\n\n");
     printf("%s", root->listData->head->data->location);
+    printf("%p", root);
+    
     printf("%s", root->left->listData->head->data->location);
+    printf("%s", root->left->parent->listData->head->data->location);
+    printf("%p", root->left->parent);
+    printf("%p", root->left->parent->parent);
+    
     printf("%s", root->right->listData->head->data->location);
     
     printf("%s", root->right->left->listData->head->data->location);
     printf("%s", root->right->left->left->listData->head->data->location);
     printf("%s", root->right->left->right->listData->head->data->location);
-    printf("%s", root->right->left->right->listData->head->next->data->location);
+    printf("%s", root->right->left->right->listData->head->next->data->location);*/
     
     LRV_Free(root);
     free(root);

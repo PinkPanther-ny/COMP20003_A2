@@ -132,6 +132,8 @@ Point_t * Point(double x, double y){
 KDT_t * createKDT(Clue_t * data){
     KDT_t * root = (KDT_t *)malloc(sizeof(KDT_t));
     assert(root != NULL);
+    
+    root -> parent = NULL;
     root -> left = NULL;
     root -> right = NULL;
     root -> listData = creatLinkedList();
@@ -152,10 +154,12 @@ KDT_t * addToKDT(KDT_t * root, Clue_t * newNode, int axis){
     }else if (cmp(newNode, root, axis?0:1)){
         //printf("LEFT\n");
         root->left = addToKDT(root->left, newNode, axis?0:1);
+        root->left->parent = root;
         
     }else{
         //printf("Right\n");
         root->right = addToKDT(root->right, newNode, axis?0:1);
+        root->right->parent = root;
        
     }
     
@@ -234,4 +238,6 @@ void freeKDT_Node(KDT_t * root){
     freeLinkedList(root->listData);
     free(root->left);
     free(root->right);
+    // No need to free parent, 
+    // since it will be freed as parent node call free
 }

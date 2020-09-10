@@ -33,6 +33,7 @@ typedef struct Point{
 
 typedef struct KDT KDT_t;
 struct KDT{
+    KDT_t * parent;
     KDT_t * left;
     KDT_t * right;
     List_t * listData;
