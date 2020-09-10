@@ -20,6 +20,17 @@ main(int argc, char *argv[]) {
     LVR_Print(root, &depth);
     printf("\nVLR:\n");
     VLR_Print(root, &depth);
+    Point_t p;
+    p.x = -1; p.y = 2;
+    depth=0;
+    root = searchKDT(root, p, 0, &depth);
+    //printf("key point's parent: %s\n", searchKDT(root, p, 0, &depth)->listData->head->data->location);
+    //printf("and its depth: %d\n", depth);
+    double nearest = INF;
+    KDT_t * result = NULL;
+    compute_nearest(root, p, &depth, &nearest, result);
+    printf("%p", result);
+    printf("%lf", nearest);
     /*
     printf("\n\n");
     printf("%s", root->listData->head->data->location);

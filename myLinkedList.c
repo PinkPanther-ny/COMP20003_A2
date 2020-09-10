@@ -227,3 +227,71 @@ void freeKDT_Node(KDT_t * root){
     // No need to free parent, 
     // since it will be freed as parent node call free
 }
+
+// Return the parent node of the key point as if 
+// the key point is in the tree(but not).
+// or Return the node if it is exactly the same to the key point
+KDT_t * searchKDT(KDT_t * root, Point_t key, int axis, int *depth){
+
+    assert(root!=NULL);
+    *depth += 1;
+    
+    if(!point_cmp(key, root, axis?0:1)){
+        printf("Equal\n");
+        return root;
+        
+    }else if (point_cmp(key, root, axis?0:1) < 0){
+        printf("LEFT\n");
+        if(root->left == NULL){return root;}
+        return searchKDT(root->left, key, axis?0:1, depth);
+        
+    }else{
+        printf("Right\n");
+        if(root->right == NULL){return root;}
+        return searchKDT(root->right, key, axis?0:1, depth);
+       
+    }
+    
+    
+}
+
+int point_cmp(Point_t key, KDT_t * curRoot, int axis){
+
+    Point_t curRoot_p = getClueLocation(curRoot->listData->head->data);
+    
+    if(key.x == curRoot_p.x && key.y == curRoot_p.y){
+        return 0;
+    }
+    
+    if(axis){
+        return (key.x - curRoot_p.x);
+    }else{
+        return (key.y - curRoot_p.y);
+    }
+    
+}
+
+void compute_nearest(KDT_t * root, Point_t key, int *depth, double *nearest, KDT_t * result){
+
+    while(point_cmp(key, root, (*depth+1)%2) <= *nearest && root->parent!=NULL){
+        root = root->parent;
+    }
+    LRV_cmp(root, key, depth, nearest, result);
+    
+}
+
+void LRV_cmp(KDT_t * root, Point_t key, int *depth, double *nearest, KDT_t * result){
+    *depth += 1;
+    if (root == NULL){
+        *depth -= 1;
+        return;
+    }
+    LRV_cmp(root->left, key, depth, nearest, result);
+    LRV_cmp(root->right, key, depth, nearest, result);
+    double curDistance = PointdistanceTo(key, root->listData->head->data);
+    printf("{%s}",root->listData->head->data->location);
+    if (curDistance < *nearest){
+        result = root;
+        *nearest = curDistance;
+    }
+}

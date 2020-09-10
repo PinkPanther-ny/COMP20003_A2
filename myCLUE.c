@@ -113,10 +113,17 @@ Point_t getClueLocation(Clue_t *data){
 
 }
 
-double distanceTo(Clue_t *clue1, Clue_t *clue2){
+double CLUEdistanceTo(Clue_t *clue1, Clue_t *clue2){
     Point_t p1 = getClueLocation(clue1);
     Point_t p2 = getClueLocation(clue2);
     
     return sqrt( pow((p1.x - p2.x), 2) + pow((p1.y - p2.y), 2) );
+    
+}
+
+double PointdistanceTo(Point_t p, Clue_t *clue){
+    Point_t p2 = getClueLocation(clue);
+    
+    return sqrt( pow((p.x - p2.x), 2) + pow((p.y - p2.y), 2) );
     
 }

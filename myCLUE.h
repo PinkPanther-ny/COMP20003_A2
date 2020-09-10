@@ -39,6 +39,8 @@
 #define NOT_FOUND "NOT FOUND"
 #define MAX_LOG_LEN 30
 
+#define INF (99999999)
+
 typedef struct CLUE{
     // Say it's better to store as string type
     char *censusYear;
@@ -70,5 +72,6 @@ Clue_t *Clue(
 void putClueInfo(Clue_t *clue, FILE * fp, char *keyWord);
 Clue_t *storeFields(char *fields[]);
 Point_t getClueLocation(Clue_t *data);
-double distanceTo(Clue_t *clue1, Clue_t *clue2);
+double CLUEdistanceTo(Clue_t *clue1, Clue_t *clue2);
+double PointdistanceTo(Point_t p, Clue_t *clue);
 #endif
