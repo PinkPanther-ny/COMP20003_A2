@@ -22,8 +22,11 @@ cls_cmd:=tput clear
 
 .PHONY: all build clean run show valgrind
 
-DATA_FILE = small.csv
-#DATA_FILE = datafile
+#DATA_FILE = data/small.csv
+#DATA_FILE = data/datafile
+#DATA_FILE = data/CLUEdata2018_median.csv
+#DATA_FILE = data/CLUEdata2018_random.csv
+DATA_FILE = data/CLUEdata2018_random.csv
 OUTPUT_FILE = outputfile
 KEYWORD_FILE = queryfile
 
@@ -33,7 +36,7 @@ build: $(PROGRAM)
 
 clean:
 	rm -f $(OBJECT_FILES)
-	$(cls_cmd)
+	#$(cls_cmd)
     
 run: build clean
 	./$(PROGRAM) $(DATA_FILE) $(OUTPUT_FILE)

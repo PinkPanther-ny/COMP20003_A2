@@ -16,21 +16,40 @@ main(int argc, char *argv[]) {
     root = readFileToTree(root, dataFile);
     
     int depth=0;
-    printf("LVR:\n");
+    
+    
+    /*
+    printf("LVR inorder:\n");
     LVR_Print(root, &depth);
-    printf("\nVLR:\n");
-    VLR_Print(root, &depth);
-    Point_t p;
-    p.x = -1; p.y = 2;
+    
     depth=0;
-    root = searchKDT(root, p, 0, &depth);
-    //printf("key point's parent: %s\n", searchKDT(root, p, 0, &depth)->listData->head->data->location);
-    //printf("and its depth: %d\n", depth);
-    double nearest = INF;
-    KDT_t * result = NULL;
-    compute_nearest(root, p, &depth, &nearest, result);
-    printf("%p", result);
+    printf("\nVLR insert order:\n");
+    VLR_Print(root, &depth);
+    printf("\n");
+    */
+    
+    Point_t p = {-37.800095, 144.959522};
+    depth=0;
+    
+    KDT_t * leaf = searchKDT(root, p, 0, &depth);
+    printf("Key point is (%f, %f)\n", p.x, p.y);
+    printf("Key point's parent: %s\n", leaf->listData->head->data->location);
+    printf("and its depth: %d\n\n", depth);
+    
+    depth=0;
+    double nearest = PointdistanceTo(p, leaf->listData->head->data);
+    printf("#nearest:%f#\n", nearest);
+    
+    List_t * result = NULL;
+    compute_nearest(leaf, p, &depth, &nearest);
+    result = LRV_cmp(leaf, p, &depth, &nearest);
+    
+    printf("\nResult: %s", result->head->data->location);
+    printf("#nearest:%f#\n", nearest);
+    /*
+    printf("{!!!%s!!!}",root->listData->head->data->location);
     printf("%lf", nearest);
+    */
     /*
     printf("\n\n");
     printf("%s", root->listData->head->data->location);

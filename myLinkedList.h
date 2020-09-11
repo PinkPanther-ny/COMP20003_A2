@@ -56,7 +56,7 @@ void LRV_Free(KDT_t * root);
 void freeKDT_Node(KDT_t * root);
 void LVR_Print(KDT_t * root, int *depth);
 KDT_t * searchKDT(KDT_t * root, Point_t key, int axis, int *depth);
-int point_cmp(Point_t key, KDT_t * curRoot, int axis);
-void compute_nearest(KDT_t * root, Point_t key, int *depth, double *nearest, KDT_t * result);
-void LRV_cmp(KDT_t * root, Point_t key, int *depth, double *nearest, KDT_t * result);
+int point_cmp(KDT_t * curRoot, Point_t key, int axis);
+void compute_nearest(KDT_t * leaf, Point_t key, int *depth, double *nearest);
+List_t * LRV_cmp(KDT_t * root, Point_t key, int *depth, double *nearest);
 #endif
