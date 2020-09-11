@@ -124,6 +124,7 @@ readFileToTree(KDT_t *dest, char *filename){
     
     int lineIndex;
     char line[MAX_LINE_LEN+1];
+    int depth = 0;
     
     // Remove header line of CSV
     fgets(line, MAX_LINE_LEN, fp);
@@ -132,12 +133,12 @@ readFileToTree(KDT_t *dest, char *filename){
     while(fgets(line, MAX_LINE_LEN, fp)!=NULL){
         lineCount++;
         lineIndex=0;
-        
+        depth=0;
         for(int i=0;i<FIELD_NUM;i++){
             fields[i] = splitOneToken(line, &lineIndex);
         }
         
-        dest = addToKDT(dest, storeFields(fields), 0);
+        dest = addToKDT(dest, storeFields(fields), &depth);
     }
     
     fclose(fp);

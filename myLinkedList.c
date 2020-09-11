@@ -129,7 +129,7 @@ Point_t * Point(double x, double y){
     return this;
 }
 
-KDT_t * createKDT(Clue_t * data){
+KDT_t * createKDT(Clue_t * data, int depth){
     KDT_t * root = (KDT_t *)malloc(sizeof(KDT_t));
     assert(root != NULL);
     
@@ -138,27 +138,32 @@ KDT_t * createKDT(Clue_t * data){
     root -> right = NULL;
     root -> listData = creatLinkedList();
     pushToLinearList(root -> listData, data);
+    root -> depth = depth;
     return root;
 }
 
-KDT_t * addToKDT(KDT_t * root, Clue_t * newNode, int axis){
+KDT_t * addToKDT(KDT_t * root, Clue_t * newNode, int * depth){
+    
+    *depth += 1;
     if (root == NULL){
+    
+        *depth -= 1;
         //printf("if (root == NULL)\n");
-        return createKDT(newNode);
+        return createKDT(newNode, *depth);
     }
     
-    if(cmp(newNode, root, axis?0:1) == -1){
+    if(cmp(newNode, root, (*depth)%2) == -1){
         //printf("Equal\n");
         pushToLinearList(root -> listData, newNode);
         
-    }else if (cmp(newNode, root, axis?0:1)){
+    }else if (cmp(newNode, root, (*depth)%2)){
         //printf("LEFT\n");
-        root->left = addToKDT(root->left, newNode, axis?0:1);
+        root->left = addToKDT(root->left, newNode, depth);
         root->left->parent = root;
         
     }else{
         //printf("Right\n");
-        root->right = addToKDT(root->right, newNode, axis?0:1);
+        root->right = addToKDT(root->right, newNode, depth);
         root->right->parent = root;
        
     }
@@ -278,7 +283,7 @@ void compute_nearest(KDT_t * leaf, Point_t key, int *depth, double *nearest){
         
     }
     
-    //printf("After while loop, highest node is %s\n", leaf->listData->head->data->location);
+    printf("After while loop, highest node is %s\n", leaf->listData->head->data->location);
     
     
 }
@@ -287,7 +292,7 @@ int point_cmp(KDT_t * curRoot, Point_t key, int axis){
 
     Point_t curRoot_p = getClueLocation(curRoot->listData->head->data);
     
-    if((fabs(key.x - curRoot_p.x)<0.00000001) && (fabs(key.y - curRoot_p.y)<0.00000001)){
+    if((key.x == curRoot_p.x) && (key.y == curRoot_p.y)){
         return 0;
     }
     
@@ -314,10 +319,11 @@ List_t * LRV_cmp(KDT_t * root, Point_t key, int *depth, double *nearest){
     if (curDistance <= (*nearest)){
         *nearest = curDistance;
         printf("Found Result: %s\n", root->listData->head->data->location);
-        
+        /*
         Point_t pp= getClueLocation(root->listData->head->data);
-        printf("(%.8f, %.8f)\n\n", pp.x, pp.y);
+        printf("(%.8f, %.8f)\n\n", pp.x, pp.y);*/
         return root->listData;
     }
+    
     return root->listData;
 }

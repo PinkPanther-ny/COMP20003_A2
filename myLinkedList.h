@@ -31,6 +31,7 @@ struct KDT{
     KDT_t * left;
     KDT_t * right;
     List_t * listData;
+    int depth;
 };
 
 // Function prototypes
@@ -46,8 +47,8 @@ void printList(List_t *list);
 
 // Function prototypes
 Point_t * Point(double x, double y);
-KDT_t * createKDT(Clue_t * data);
-KDT_t * addToKDT(KDT_t * root, Clue_t * newNode, int axis);
+KDT_t * createKDT(Clue_t * data, int depth);
+KDT_t * addToKDT(KDT_t * root, Clue_t * newNode, int * depth);
 
 List_t *pushToKDT(List_t *list, Clue_t *data);
 int cmp(Clue_t * newData, KDT_t * curRoot, int axis);
