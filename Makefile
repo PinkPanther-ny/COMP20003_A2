@@ -40,7 +40,7 @@ clean:
 	#$(cls_cmd)
 
 run: build clean
-	./$(PROGRAM) $(DATA_FILE) $(OUTPUT_FILE)
+	./$(PROGRAM) $(DATA_FILE) $(OUTPUT_FILE) < $(KEYWORD_FILE)
 
 show:
 	cat $(OUTPUT_FILE)
