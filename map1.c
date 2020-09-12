@@ -42,7 +42,7 @@ main(int argc, char *argv[]) {
         fwriteLinkedList(result->listData, fp, key);
 
         printf("%.6f %.6f --> %d\n", key.y, key.x, compareTime);
-
+        printf("%s\n",result->listData->head->data->location);
     }
 
     LRV_Free(root);

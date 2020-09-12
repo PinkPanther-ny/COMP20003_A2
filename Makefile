@@ -27,6 +27,7 @@ cls_cmd:=tput clear
 #DATA_FILE = data/CLUEdata2018_median.csv
 DATA_FILE = data/CLUEdata2018_random.csv
 #DATA_FILE = data/CLUEdata2018_sortx.csv
+#DATA_FILE = data/1.csv
 OUTPUT_FILE = outputfile
 KEYWORD_FILE = queryfile
 
@@ -39,7 +40,7 @@ clean:
 	#$(cls_cmd)
 
 run: build clean
-	./$(PROGRAM) $(DATA_FILE) $(OUTPUT_FILE) < $(KEYWORD_FILE)
+	./$(PROGRAM) $(DATA_FILE) $(OUTPUT_FILE)
 
 show:
 	cat $(OUTPUT_FILE)

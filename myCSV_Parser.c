@@ -41,7 +41,9 @@ char *splitOneToken(char *line, int * lineIndex){
                 dest[destIndex] = CHAR_NULLCHAR;
                 // jump to the comma after the quote
                 *lineIndex = i + 2;
-
+                if (dest[strlen(dest) - 1] == CHAR_QUOTE){
+                    dest[strlen(dest) - 1] = CHAR_NULLCHAR;
+                }
                 dest = (char *)realloc(dest, (strlen(dest) + 1) * sizeof(char));
                 return dest;
             }
@@ -63,7 +65,9 @@ char *splitOneToken(char *line, int * lineIndex){
                 dest[destIndex] = CHAR_NULLCHAR;
                 // jump to next comma
                 *lineIndex = i + 1;
-
+                if (dest[strlen(dest) - 1] == CHAR_QUOTE){
+                    dest[strlen(dest) - 1] = CHAR_NULLCHAR;
+                }
                 dest = (char *)realloc(dest, (strlen(dest) + 1) * sizeof(char));
                 return dest;
             }
