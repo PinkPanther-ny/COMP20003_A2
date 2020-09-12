@@ -6,9 +6,9 @@
 #include "myLinkedList.h"
 
 /* Constructor for Node_t */
-void 
+void
 Node(Node_t *this, Clue_t *data, Node_t *next){
-    
+
     assert(this != NULL);
     this -> data = data;
     this -> next = next;
@@ -29,7 +29,7 @@ void
 freeLinkedList(List_t *list) {
     assert(list!=NULL);
     Node_t *cur, *pre;
-    
+
     cur = list->head;
     while (cur) {
         pre = cur;
@@ -39,21 +39,21 @@ freeLinkedList(List_t *list) {
         free(pre->data->blockID);
         free(pre->data->propertyID);
         free(pre->data->basePropertyID);
-        
+
         free(pre->data->clueSmallArea);
         free(pre->data->tradingName);
         free(pre->data->industryCode);
         free(pre->data->industryDescription);
-        
+
         free(pre->data->xCoord);
         free(pre->data->yCoord);
         free(pre->data->location);
         free(pre->data);
-        
+
         free(pre);
     }
     free(list);
-    
+
 }
 
 
@@ -61,7 +61,7 @@ void
 freeListNode(List_t *list) {
     assert(list!=NULL);
     Node_t *cur, *pre;
-    
+
     cur = list->head;
     while (cur) {
         pre = cur;
@@ -70,17 +70,17 @@ freeListNode(List_t *list) {
         free(pre);
     }
     free(list);
-    
+
 }
 
 
-void 
-putLinkedList(List_t *src, FILE * fp){
+void
+putLinkedList(List_t *src, FILE * fp, Point_t keyPoint){
     Node_t * ptr = src->head;
     while(ptr != NULL){
-        putClueInfo(ptr->data, fp, NULL);
+        putClueInfo(ptr->data, fp, NULL, keyPoint);
         ptr = ptr->next;
-        
+
     }
 }
 
@@ -90,7 +90,7 @@ List_t *
 pushToLinearList(List_t *list, Clue_t *data){
     Node_t *newNode = (Node_t*)malloc(sizeof(Node_t));
     assert(newNode != NULL);
-    
+
     // The first item
     if(list->head == NULL){
         Node(newNode, data, NULL);
@@ -98,10 +98,10 @@ pushToLinearList(List_t *list, Clue_t *data){
     }else{
         Node(newNode, data, list -> head);
     }
-    
+
     list -> head = newNode;
     return list;
-    
+
 }
 
 
@@ -109,7 +109,7 @@ void
 printList(List_t *list) {
     assert(list!=NULL);
     Node_t *cur;
-    
+
     cur = list->head;
     while (cur) {
         printf("%s\t",cur->data->location);
@@ -132,7 +132,7 @@ Point_t * Point(double x, double y){
 KDT_t * createKDT(Clue_t * data, int depth){
     KDT_t * root = (KDT_t *)malloc(sizeof(KDT_t));
     assert(root != NULL);
-    
+
     root -> parent = NULL;
     root -> left = NULL;
     root -> right = NULL;
@@ -146,49 +146,49 @@ void freeKDT_Node(KDT_t * root){
     freeLinkedList(root->listData);
     free(root->left);
     free(root->right);
-    // No need to free parent, 
+    // No need to free parent,
     // since it will be freed as parent node call free
 }
 
 KDT_t * addToKDT(KDT_t * root, Clue_t * newNode, int * depth){
-    
+
     *depth += 1;
     if (root == NULL){
-    
+
         *depth -= 1;
         //printf("if (root == NULL)\n");
         return createKDT(newNode, *depth);
     }
-    
+
     if(cmp(newNode, root, (*depth)%2) == -1){
         //printf("Equal\n");
         pushToLinearList(root -> listData, newNode);
-        
+
     }else if (cmp(newNode, root, (*depth)%2)){
         //printf("LEFT\n");
         root->left = addToKDT(root->left, newNode, depth);
         root->left->parent = root;
-        
+
     }else{
         //printf("Right\n");
         root->right = addToKDT(root->right, newNode, depth);
         root->right->parent = root;
-       
+
     }
     //printf("ROOT\n");
     return root;
-    
+
 }
 
 
 int cmp(Clue_t * newData, KDT_t * curRoot, int axis){
     Point_t new_p = getClueLocation(newData);
     Point_t curRoot_p = getClueLocation(curRoot->listData->head->data);
-    
+
     if(new_p.x == curRoot_p.x && new_p.y == curRoot_p.y){
         return -1;
     }
-    
+
     if(axis){
         return new_p.x < curRoot_p.x;
     }else{
@@ -202,7 +202,7 @@ void LVR_Print(KDT_t * root){
     if (root == NULL){
         return;
     }
-    
+
     VLR_Print(root->left);
     printf("At depth %d: ", root->depth);
     printList(root->listData);
@@ -230,29 +230,33 @@ void LRV_Free(KDT_t * root){
 
 /********************************************************************/
 
-// Return the parent node of the key point as if 
+// Return the parent node of the key point as if
 // the key point is in the tree(but not).
 // or Return the node if it is exactly the same to the key point
 KDT_t * searchKDT(KDT_t * root, Point_t key){
 
     assert(root!=NULL);
-    
+
     if(point_cmp(root, key) == 0){
-        printf("Search direction: EQUAL\n");
+        //printf("Search direction: EQUAL\n");
         return root;
-        
+
     }else if (point_cmp(root, key) < 0){
         if(root->left == NULL){
-        printf("Search direction: left == NULL\n");return root;}
-        printf("Search direction: LEFT\n");
+            //printf("Search direction: left == NULL\n");
+            return root;
+        }
+        //printf("Search direction: LEFT\n");
         return searchKDT(root->left, key);
-        
+
     }else{
         if(root->right == NULL){
-        printf("Search direction: right == NULL\n");return root;}
-        printf("Search direction: RIGHT\n");
+            //printf("Search direction: right == NULL\n");
+            return root;
+        }
+        //printf("Search direction: RIGHT\n");
         return searchKDT(root->right, key);
-       
+
     }
 }
 
@@ -260,41 +264,41 @@ int point_cmp(KDT_t * curRoot, Point_t key){
 
     int axis = curRoot->depth%2; // Start from 0
     Point_t curRoot_p = getClueLocation(curRoot->listData->head->data);
-    
+
     if((key.x == curRoot_p.x) && (key.y == curRoot_p.y)){
         return 0;
     }
-    
+
     if(!axis){
         return (key.x - curRoot_p.x);
     }else{
         return (key.y - curRoot_p.y);
     }
-    
+
 }
 
 KDT_t * compute_nearest(KDT_t * keyParent, Point_t key, double *nearest){
-    
+
     while( (keyParent->parent)!=NULL ){
         double absDistance;
         Point_t curRoot_p = getClueLocation(keyParent->parent->listData->head->data);
-        
+
         if ( !((keyParent->parent->depth)%2) ){ // x axis
             absDistance = fabs(curRoot_p.x - key.x);
         }else{
             absDistance = fabs(curRoot_p.y - key.y);
         }
-        
+
         if ( absDistance < (*nearest) ){
             keyParent = keyParent->parent;
-            printf("abs: %.8f, depth: %d\n", absDistance, keyParent->depth);
+            //printf("abs: %.8f, depth: %d\n", absDistance, keyParent->depth);
         }else{
             break;
         }
-        
+
     }
     return keyParent;
-    
+
 }
 
 
@@ -304,46 +308,19 @@ KDT_t * VLR_search(KDT_t * keyParent, Point_t key, double *nearest, KDT_t * resu
         return result;
     }
     double curDistance = distanceTo(key, getClueLocation(keyParent->listData->head->data));
-    
+
     if ( curDistance - (*nearest) <= 0.00000001){
         (*compareTime)+=1;
         *nearest = curDistance;
         result = keyParent;
-        
-        printf("Found NEW nearest: %f, to point %s\n", curDistance, result->listData->head->data->location);
+
+        //printf("Found NEW nearest: %f, to point %s\n", curDistance, result->listData->head->data->location);
     }else{
         (*compareTime)+=1;
         //printf("Oops, Not this one: %s\n", keyParent->listData->head->data->location);
     }
-    
+
     result = VLR_search(keyParent->left, key, nearest, result, compareTime);
     result = VLR_search(keyParent->right, key, nearest, result, compareTime);
     return result;
-}
-
-
-
-
-List_t * LRV_cmp(KDT_t * root, Point_t key, int *depth, double *nearest){
-    *depth += 1;
-    if (root == NULL){
-        *depth -= 1;
-        return NULL;
-    }
-    LRV_cmp(root->left, key, depth, nearest);
-    LRV_cmp(root->right, key, depth, nearest);
-    
-
-    double curDistance = PointdistanceTo(key, root->listData->head->data);
-    //printf("(%f,%f) to %s = %f\n", key.x,key.y,root->listData->head->data->location, curDistance);
-    if (curDistance <= (*nearest)){
-        *nearest = curDistance;
-        printf("Found Result: %s\n", root->listData->head->data->location);
-        /*
-        Point_t pp= getClueLocation(root->listData->head->data);
-        printf("(%.8f, %.8f)\n\n", pp.x, pp.y);*/
-        return root->listData;
-    }
-    
-    return root->listData;
 }

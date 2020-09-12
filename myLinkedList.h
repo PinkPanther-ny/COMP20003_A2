@@ -12,17 +12,17 @@
 #define K 2
 typedef struct Node Node_t;
 struct Node{
-    
+
     Clue_t * data;
     Node_t * next;
-    
+
 };
 
 typedef struct List{
-    
+
     Node_t * head;
     Node_t * foot;
-    
+
 }List_t;
 
 typedef struct KDT KDT_t;
@@ -39,7 +39,7 @@ void Node(Node_t *this, Clue_t *data, Node_t *next);
 List_t *creatLinkedList();
 List_t *pushToLinearList(List_t *list, Clue_t *data);
 int linearSearch(char *keyWord, List_t *src, List_t *result);
-void putLinkedList(List_t *src, FILE *fp);
+void putLinkedList(List_t *src, FILE *fp, Point_t keyPoint);
 void freeLinkedList(List_t *list);
 void freeListNode(List_t *list);
 void printList(List_t *list);
@@ -60,5 +60,4 @@ KDT_t * searchKDT(KDT_t * root, Point_t key);
 int point_cmp(KDT_t * curRoot, Point_t key);
 KDT_t * compute_nearest(KDT_t * keyParent, Point_t key, double *nearest);
 KDT_t * VLR_search(KDT_t * keyParent, Point_t key, double *nearest, KDT_t * result, int * compareTime);
-List_t * LRV_cmp(KDT_t * root, Point_t key, int *depth, double *nearest);
 #endif

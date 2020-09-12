@@ -67,7 +67,7 @@ Clue_t *Clue(
     char* clueSmallArea, char* tradingName, char* industryCode, char* industryDescription,
     char* xCoord, char* yCoord, char *location
     );
-void putClueInfo(Clue_t *clue, FILE * fp, char *keyWord);
+void putClueInfo(Clue_t *clue, FILE * fp, char *keyWord, Point_t keyPoint);
 Clue_t *storeFields(char *fields[]);
 Point_t getClueLocation(Clue_t *data);
 double CLUEdistanceTo(Clue_t *clue1, Clue_t *clue2);
