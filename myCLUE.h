@@ -14,7 +14,6 @@
 
 #define MAX_LINE_LEN 512
 #define MAX_FIELD_LEN 128
-#define MAX_DECIMAL 30
 #define FIELD_NUM 11
 
 #define FIELD_CENSUS_YEAR 0
@@ -33,11 +32,6 @@
 #define CHAR_NULLCHAR '\0'
 #define CHAR_QUOTE '\"'
 #define CHAR_NEWLINE '\n'
-
-#define FOUND1 "FOUND "
-#define FOUND2 " records of"
-#define NOT_FOUND "NOT FOUND"
-#define MAX_LOG_LEN 30
 
 typedef struct CLUE{
     // Say it's better to store as string type
@@ -67,10 +61,8 @@ Clue_t *Clue(
     char* clueSmallArea, char* tradingName, char* industryCode, char* industryDescription,
     char* xCoord, char* yCoord, char *location
     );
-void putClueInfo(Clue_t *clue, FILE * fp, char *keyWord, Point_t keyPoint);
+void putClueInfo(Clue_t *clue, FILE * fp, Point_t keyPoint);
 Clue_t *storeFields(char *fields[]);
 Point_t getClueLocation(Clue_t *data);
-double CLUEdistanceTo(Clue_t *clue1, Clue_t *clue2);
-double PointdistanceTo(Point_t p, Clue_t *clue);
 double distanceTo(Point_t p1, Point_t p2);
 #endif

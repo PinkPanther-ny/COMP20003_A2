@@ -36,28 +36,25 @@ struct KDT{
 
 // Function prototypes
 void Node(Node_t *this, Clue_t *data, Node_t *next);
+Point_t * Point(double x, double y);
+KDT_t * KDT(Clue_t * data, int depth);
+
 List_t *creatLinkedList();
 List_t *pushToLinearList(List_t *list, Clue_t *data);
 int linearSearch(char *keyWord, List_t *src, List_t *result);
-void putLinkedList(List_t *src, FILE *fp, Point_t keyPoint);
-void freeLinkedList(List_t *list);
-void freeListNode(List_t *list);
-void printList(List_t *list);
+void fwriteLinkedList(List_t *src, FILE *fp, Point_t keyPoint);
 
-
-// Function prototypes
-Point_t * Point(double x, double y);
-KDT_t * createKDT(Clue_t * data, int depth);
-KDT_t * addToKDT(KDT_t * root, Clue_t * newNode, int * depth);
-
-List_t *pushToKDT(List_t *list, Clue_t *data);
 int cmp(Clue_t * newData, KDT_t * curRoot, int axis);
-void LVR_Print(KDT_t * root);
-void VLR_Print(KDT_t * root);
-void LRV_Free(KDT_t * root);
-void freeKDT_Node(KDT_t * root);
-KDT_t * searchKDT(KDT_t * root, Point_t key);
 int point_cmp(KDT_t * curRoot, Point_t key);
+
+KDT_t * addToKDT(KDT_t * root, Clue_t * newNode, int * depth);
+List_t *pushToKDT(List_t *list, Clue_t *data);
+KDT_t * searchKDT(KDT_t * root, Point_t key);
 KDT_t * compute_nearest(KDT_t * keyParent, Point_t key, double *nearest);
 KDT_t * VLR_search(KDT_t * keyParent, Point_t key, double *nearest, KDT_t * result, int * compareTime);
+
+void freeLinkedList(List_t *list);
+void freeListNode(List_t *list);
+void LRV_Free(KDT_t * root);
+void freeKDT_Node(KDT_t * root);
 #endif

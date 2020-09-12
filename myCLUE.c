@@ -34,42 +34,30 @@ Clue(
 
 /**
 * Put a Clue_t type object to a given file
-* if clue is NULL, put keyword not found
-* param clue -A Clue_t pointer points to CLUE information
-* param fp -A file pointer point to the output file
 */
 void
-putClueInfo(Clue_t *clue, FILE * fp, char *keyWord, Point_t keyPoint){
+putClueInfo(Clue_t *clue, FILE * fp, Point_t keyPoint){
 
-    if(clue==NULL){
-        fprintf(
-            fp,
-            "%s −− >NOTFOUND\n\n",
-            keyWord
-        );
-
-    }else{
-        fprintf(
-            fp,
-            "%.6f %.6f --> Census year: %s || Block ID: %s || "
-            "Property ID: %s || Base property ID: %s || "
-            "CLUE small area: %s || "
-            "Trading Name: %s || "
-            "Industry (ANZSIC4) code: %s || "
-            "Industry (ANZSIC4) description: %s || "
-            "x coordinate: %s || y coordinate: %s || "
-            "Location: %s || \n",
-            keyPoint.y, keyPoint.x,
-            clue -> censusYear, clue -> blockID,
-            clue -> propertyID, clue -> basePropertyID,
-            clue -> clueSmallArea,
-            clue -> tradingName,
-            clue -> industryCode,
-            clue -> industryDescription,
-            clue -> xCoord, clue -> yCoord,
-            clue->location
-        );
-    }
+    fprintf(
+        fp,
+        "%.6f %.6f --> Census year: %s || Block ID: %s || "
+        "Property ID: %s || Base property ID: %s || "
+        "CLUE small area: %s || "
+        "Trading Name: %s || "
+        "Industry (ANZSIC4) code: %s || "
+        "Industry (ANZSIC4) description: %s || "
+        "x coordinate: %s || y coordinate: %s || "
+        "Location: %s || \n",
+        keyPoint.y, keyPoint.x,
+        clue -> censusYear, clue -> blockID,
+        clue -> propertyID, clue -> basePropertyID,
+        clue -> clueSmallArea,
+        clue -> tradingName,
+        clue -> industryCode,
+        clue -> industryDescription,
+        clue -> xCoord, clue -> yCoord,
+        clue->location
+    );
 }
 
 /**
@@ -96,7 +84,6 @@ storeFields(char *fields[]){
         fields[FIELD_LOCATION]
 
     );
-    //printf("%s\t%s\n",fields[FIELD_TRADING_NAME],fields[FIELD_LOCATION]);
     return clue;
 }
 
@@ -106,26 +93,9 @@ Point_t getClueLocation(Clue_t *data){
     Point_t p;
     char* str = data->location;
     char* pEnd;
-    double d1, d2;
-    d1 = strtod (str+1, &pEnd);
-    d2 = strtod (pEnd+1, NULL);
-    p.x = d1;
-    p.y = d2;
+    p.x = strtod (str+1, &pEnd);
+    p.y = strtod (pEnd+1, NULL);
     return p;
-
-}
-
-double CLUEdistanceTo(Clue_t *clue1, Clue_t *clue2){
-    Point_t p1 = getClueLocation(clue1);
-    Point_t p2 = getClueLocation(clue2);
-
-    return sqrt( pow((p1.x - p2.x), 2) + pow((p1.y - p2.y), 2) );
-
-}
-
-double PointdistanceTo(Point_t p, Clue_t *clue){
-    Point_t p2 = getClueLocation(clue);
-    return sqrt( pow((p.x - p2.x), 2) + pow((p.y - p2.y), 2) );
 
 }
 
