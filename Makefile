@@ -30,17 +30,17 @@ DATA_FILE = data/CLUEdata2018_random.csv
 OUTPUT_FILE = outputfile
 KEYWORD_FILE = queryfile
 
-all: build clean run #show 
+all: build clean run #show
 
 build: $(PROGRAM)
 
 clean:
 	rm -f $(OBJECT_FILES)
 	#$(cls_cmd)
-    
+
 run: build clean
-	./$(PROGRAM) $(DATA_FILE) $(OUTPUT_FILE)
-    
+	./$(PROGRAM) $(DATA_FILE) $(OUTPUT_FILE) < $(KEYWORD_FILE)
+
 show:
 	cat $(OUTPUT_FILE)
 
