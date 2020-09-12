@@ -298,26 +298,27 @@ KDT_t * compute_nearest(KDT_t * keyParent, Point_t key, double *nearest){
 }
 
 
-void VLR_search(KDT_t * keyParent, Point_t key, double *nearest, KDT_t * result){
+KDT_t * VLR_search(KDT_t * keyParent, Point_t key, double *nearest, KDT_t * result, int *compareTime){
     if (keyParent==NULL){
-        return;
+        // no compare here.
+        return result;
     }
-    
-    //printf("result address1: %p\n", result);
     double curDistance = distanceTo(key, getClueLocation(keyParent->listData->head->data));
-    //printf("curdis: %f\n", curDistance);
     
     if ( curDistance - (*nearest) <= 0.00000001){
-    
+        (*compareTime)+=1;
         *nearest = curDistance;
         result = keyParent;
         
         printf("Found NEW nearest: %f, to point %s\n", curDistance, result->listData->head->data->location);
+    }else{
+        (*compareTime)+=1;
+        //printf("Oops, Not this one: %s\n", keyParent->listData->head->data->location);
     }
     
-    //printf("result address2: %p\n", result);
-    VLR_search(keyParent->left, key, nearest, result);
-    VLR_search(keyParent->right, key, nearest, result);
+    result = VLR_search(keyParent->left, key, nearest, result, compareTime);
+    result = VLR_search(keyParent->right, key, nearest, result, compareTime);
+    return result;
 }
 
 

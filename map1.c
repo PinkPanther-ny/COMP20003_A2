@@ -35,6 +35,7 @@ main(int argc, char *argv[]) {
     
     
     Point_t key = {-37.800095, 144.959522};
+    //Point_t key = {0, 0};
     double nearest;
     //Point_t key = {260,685};
     
@@ -51,9 +52,10 @@ main(int argc, char *argv[]) {
     
     
     KDT_t * result = NULL;
-    VLR_search(keyParent, key, &nearest, result);
+    int compareTime = 0;
+    result = VLR_search(keyParent, key, &nearest, result, &compareTime);
     
-    printf("\nResult: %p", result);
+    printf("\nResult: %s, Compare %d times", result->listData->head->data->location, compareTime);
     
     /*
     
