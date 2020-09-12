@@ -274,14 +274,6 @@ int point_cmp(KDT_t * curRoot, Point_t key){
 }
 
 KDT_t * compute_nearest(KDT_t * keyParent, Point_t key, double *nearest){
-
-    // Find the sub tree that could contain the key point
-    /*
-    double a = fabs(point_cmp(keyParent, key));
-    double b = (*nearest);
-    */
-    /*printf("******In compute_nearest, keyParent to key axis(%d) distance:%f, \nFIRST nearest%f,keyParent %s***keyParent%s***\n\n",
-    (*depth+1)%2,a,b,keyParent->parent->listData->head->data->location,keyParent->listData->head->data->location );*/
     
     while( (keyParent->parent)!=NULL ){
         double absDistance;
@@ -292,19 +284,44 @@ KDT_t * compute_nearest(KDT_t * keyParent, Point_t key, double *nearest){
         }else{
             absDistance = fabs(curRoot_p.y - key.y);
         }
-        printf("abs: %f, nearest:%f\n", absDistance, *nearest);
+        
         if ( absDistance < (*nearest) ){
             keyParent = keyParent->parent;
+            printf("abs: %.8f, depth: %d\n", absDistance, keyParent->depth);
         }else{
             break;
         }
-        /*printf("******In compute_nearest, keyParent to key axis(%d) distance:%f, \n nearest%f,keyParent %s***keyParent%s***\n\n",
-        (*depth+1)%2,a,b,keyParent->parent->listData->head->data->location,keyParent->listData->head->data->location );*/
         
     }
     return keyParent;
     
 }
+
+
+void VLR_search(KDT_t * keyParent, Point_t key, double *nearest, KDT_t * result){
+    if (keyParent==NULL){
+        return;
+    }
+    
+    //printf("result address1: %p\n", result);
+    double curDistance = distanceTo(key, getClueLocation(keyParent->listData->head->data));
+    //printf("curdis: %f\n", curDistance);
+    
+    if ( curDistance - (*nearest) <= 0.00000001){
+    
+        *nearest = curDistance;
+        result = keyParent;
+        
+        printf("Found NEW nearest: %f, to point %s\n", curDistance, result->listData->head->data->location);
+    }
+    
+    //printf("result address2: %p\n", result);
+    VLR_search(keyParent->left, key, nearest, result);
+    VLR_search(keyParent->right, key, nearest, result);
+}
+
+
+
 
 List_t * LRV_cmp(KDT_t * root, Point_t key, int *depth, double *nearest){
     *depth += 1;

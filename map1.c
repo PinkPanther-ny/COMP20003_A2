@@ -14,7 +14,7 @@ main(int argc, char *argv[]) {
     
     KDT_t * root = NULL;
     root = readFileToTree(root, dataFile);
-    
+    /*
     printf("%s, depth: %d\n",root->listData->head->data->location, root->depth);
     printf("%s, depth: %d\n",root->left->listData->head->data->location, root->left->depth);
     printf("%s, depth: %d\n",root->left->left->listData->head->data->location, root->left->left->depth);
@@ -30,11 +30,11 @@ main(int argc, char *argv[]) {
     printf("\nVLR insert order:\n");
     VLR_Print(root);
     printf("\n");
-    
+    */
     /**************************************************************/
     
     
-    Point_t key = {298,587};
+    Point_t key = {-37.800095, 144.959522};
     double nearest;
     //Point_t key = {260,685};
     
@@ -47,9 +47,13 @@ main(int argc, char *argv[]) {
     printf("Initial nearest:%.8f\n", nearest);
     
     keyParent = compute_nearest(keyParent, key, &nearest);
-    printf("After while loop, highest node is %s\n", keyParent->listData->head->data->location);
+    printf("After while loop, highest node is %s\n\n", keyParent->listData->head->data->location);
     
     
+    KDT_t * result = NULL;
+    VLR_search(keyParent, key, &nearest, result);
+    
+    printf("\nResult: %p", result);
     
     /*
     

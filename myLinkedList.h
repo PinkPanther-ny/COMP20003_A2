@@ -59,5 +59,6 @@ void freeKDT_Node(KDT_t * root);
 KDT_t * searchKDT(KDT_t * root, Point_t key);
 int point_cmp(KDT_t * curRoot, Point_t key);
 KDT_t * compute_nearest(KDT_t * keyParent, Point_t key, double *nearest);
+void VLR_search(KDT_t * keyParent, Point_t key, double *nearest, KDT_t * result);
 List_t * LRV_cmp(KDT_t * root, Point_t key, int *depth, double *nearest);
 #endif

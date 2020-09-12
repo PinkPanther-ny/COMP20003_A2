@@ -74,4 +74,5 @@ Clue_t *storeFields(char *fields[]);
 Point_t getClueLocation(Clue_t *data);
 double CLUEdistanceTo(Clue_t *clue1, Clue_t *clue2);
 double PointdistanceTo(Point_t p, Clue_t *clue);
+double distanceTo(Point_t p1, Point_t p2);
 #endif
