@@ -47,7 +47,7 @@ creatLinkedList(){
     return list;
 }
 
-/**/
+/* Write linked list to a given file pointer */
 void
 fwriteLinkedList(List_t *src, FILE * fp, Point_t keyPoint){
     Node_t * ptr = src->head;
@@ -76,7 +76,9 @@ pushToLinearList(List_t *list, Clue_t *data){
 
 }
 
+
 /*************************** KD tree operation ********************************/
+/* Add an item from the root */
 KDT_t * addToKDT(KDT_t * root, Clue_t * newNode, int * depth){
 
     *depth += 1;
@@ -100,22 +102,6 @@ KDT_t * addToKDT(KDT_t * root, Clue_t * newNode, int * depth){
     }
     return root;
 
-}
-
-
-int cmp(Clue_t * newData, KDT_t * curRoot, int axis){
-    Point_t new_p = getClueLocation(newData);
-    Point_t curRoot_p = getClueLocation(curRoot->listData->head->data);
-
-    if(new_p.x == curRoot_p.x && new_p.y == curRoot_p.y){
-        return -1;
-    }
-
-    if(axis){
-        return new_p.x < curRoot_p.x;
-    }else{
-        return new_p.y < curRoot_p.y;
-    }
 }
 
 // Return the parent node of the key point as if
@@ -144,31 +130,14 @@ KDT_t * searchKDT(KDT_t * root, Point_t key){
     }
 }
 
-
-int point_cmp(KDT_t * curRoot, Point_t key){
-
-    int axis = curRoot->depth%2;
-    Point_t curRoot_p = getClueLocation(curRoot->listData->head->data);
-
-    if((key.x == curRoot_p.x) && (key.y == curRoot_p.y)){
-        return 0;
-    }
-
-    if(!axis){
-        return (key.x - curRoot_p.x);
-    }else{
-        return (key.y - curRoot_p.y);
-    }
-
-}
-
 KDT_t * compute_nearest(KDT_t * keyParent, Point_t key, double *nearest){
 
     while( (keyParent->parent)!=NULL ){
         double absDistance;
+        
         Point_t curRoot_p = getClueLocation(
                   keyParent->parent->listData->head->data
-              );
+        );
 
         if ( !(keyParent->parent->depth%2) ){ // x axis
             absDistance = fabs(curRoot_p.x - key.x);
@@ -188,19 +157,20 @@ KDT_t * compute_nearest(KDT_t * keyParent, Point_t key, double *nearest){
 
 }
 
-
-KDT_t * VLR_search(KDT_t * keyParent, Point_t key, double *nearest,
-                                              KDT_t * result, int *compareTime){
+/* Search the item with nearest location recursively */
+KDT_t * VLR_search(KDT_t * keyParent, Point_t key, 
+                   double *nearest, KDT_t * result, int *compareTime){
+    
     if (keyParent==NULL){
         // no compare here.
         return result;
     }
     double curDistance = distanceTo(
-                              key,
-                              getClueLocation(keyParent->listData->head->data)
-                          );
+        key,
+        getClueLocation(keyParent->listData->head->data)
+    );
 
-    if ( curDistance - *nearest <= 0.00000001){
+    if ( curDistance - *nearest <= ROUNDING_ERROR_MARGIN){
         *compareTime += 1;
         *nearest = curDistance;
         result = keyParent;
@@ -213,6 +183,41 @@ KDT_t * VLR_search(KDT_t * keyParent, Point_t key, double *nearest,
     result = VLR_search(keyParent->right, key, nearest, result, compareTime);
     return result;
 }
+
+
+/************************ Basic compare functions *****************************/
+int cmp(Clue_t * newData, KDT_t * curRoot, int axis){
+    Point_t new_p = getClueLocation(newData);
+    Point_t curRoot_p = getClueLocation(curRoot->listData->head->data);
+
+    if(new_p.x == curRoot_p.x && new_p.y == curRoot_p.y){
+        return -1;
+    }
+
+    if(axis){
+        return new_p.x < curRoot_p.x;
+    }else{
+        return new_p.y < curRoot_p.y;
+    }
+}
+
+int point_cmp(KDT_t * curRoot, Point_t key){
+
+    int axis = curRoot->depth%2;
+    Point_t curRoot_p = getClueLocation(curRoot->listData->head->data);
+
+    if((key.x == curRoot_p.x) && (key.y == curRoot_p.y)){
+        return 0;
+    }
+
+    if(!axis){
+        return (key.x - curRoot_p.x);
+    }else{
+        return (key.y - curRoot_p.y);
+    }
+
+}
+
 
 /********************* Free data that stored in heap **************************/
 void
