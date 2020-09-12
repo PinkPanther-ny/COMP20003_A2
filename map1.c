@@ -34,27 +34,34 @@ main(int argc, char *argv[]) {
     /**************************************************************/
     
     
-    Point_t p = {438,828};
-    //Point_t p = {260,685};
-    KDT_t * leaf = searchKDT(root, p);
+    Point_t key = {298,587};
+    double nearest;
+    //Point_t key = {260,685};
     
-    printf("Key point is (%f, %f)\n", p.x, p.y);
-    printf("Key point's parent: %s\n", leaf->listData->head->data->location);
-    printf("and its depth: %d\n\n", leaf->depth);
+    KDT_t * keyParent = searchKDT(root, key);
+    nearest = PointdistanceTo(key, keyParent->listData->head->data);
+    
+    printf("\nKey point is (%.8f, %.8f)\n", key.x, key.y);
+    printf("Key point's parent: %s ", keyParent->listData->head->data->location);
+    printf("and its depth: %d\n", keyParent->depth);
+    printf("Initial nearest:%.8f\n", nearest);
+    
+    keyParent = compute_nearest(keyParent, key, &nearest);
+    printf("After while loop, highest node is %s\n", keyParent->listData->head->data->location);
+    
+    
     
     /*
-    //depth=0;
-    double nearest = PointdistanceTo(p, leaf->listData->head->data);
-    printf("#nearest:%f#\n", nearest);
     
     
-    List_t * result = NULL;
-    compute_nearest(leaf, p, &depth, &nearest);
+    //List_t * result = NULL;
     result = LRV_cmp(leaf, p, &depth, &nearest);
     
     printf("\nResult: %s", result->head->data->location);
     printf("#nearest:%f#\n", nearest);
+    
     */
+    
     
     
     /*

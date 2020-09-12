@@ -237,11 +237,11 @@ KDT_t * searchKDT(KDT_t * root, Point_t key){
 
     assert(root!=NULL);
     
-    if(point_cmp(root, key, root->depth%2) == 0){
+    if(point_cmp(root, key) == 0){
         printf("Search direction: EQUAL\n");
         return root;
         
-    }else if (point_cmp(root, key, root->depth%2) < 0){
+    }else if (point_cmp(root, key) < 0){
         if(root->left == NULL){
         printf("Search direction: left == NULL\n");return root;}
         printf("Search direction: LEFT\n");
@@ -256,8 +256,9 @@ KDT_t * searchKDT(KDT_t * root, Point_t key){
     }
 }
 
-int point_cmp(KDT_t * curRoot, Point_t key, int axis){
+int point_cmp(KDT_t * curRoot, Point_t key){
 
+    int axis = curRoot->depth%2; // Start from 0
     Point_t curRoot_p = getClueLocation(curRoot->listData->head->data);
     
     if((key.x == curRoot_p.x) && (key.y == curRoot_p.y)){
@@ -272,29 +273,36 @@ int point_cmp(KDT_t * curRoot, Point_t key, int axis){
     
 }
 
-void compute_nearest(KDT_t * leaf, Point_t key, int *depth, double *nearest){
+KDT_t * compute_nearest(KDT_t * keyParent, Point_t key, double *nearest){
 
     // Find the sub tree that could contain the key point
-    double a=(fabs(point_cmp(leaf, key, (*depth+1)%2)));
-    double b= (*nearest);
+    /*
+    double a = fabs(point_cmp(keyParent, key));
+    double b = (*nearest);
+    */
+    /*printf("******In compute_nearest, keyParent to key axis(%d) distance:%f, \nFIRST nearest%f,keyParent %s***keyParent%s***\n\n",
+    (*depth+1)%2,a,b,keyParent->parent->listData->head->data->location,keyParent->listData->head->data->location );*/
     
-    /*printf("******In compute_nearest, leaf to key axis(%d) distance:%f, \nFIRST nearest%f,leafparent %s***leaf%s***\n\n",
-    (*depth+1)%2,a,b,leaf->parent->listData->head->data->location,leaf->listData->head->data->location );*/
-    
-    while( a < b && ((leaf->parent)!=NULL)){
-        leaf = leaf->parent;
-        (*depth)--;
+    while( (keyParent->parent)!=NULL ){
+        double absDistance;
+        Point_t curRoot_p = getClueLocation(keyParent->parent->listData->head->data);
         
-        a=(fabs(point_cmp(leaf, key, (*depth+1)%2)));
-        b= (*nearest);
-        
-        /*printf("******In compute_nearest, leaf to key axis(%d) distance:%f, \n nearest%f,leafparent %s***leaf%s***\n\n",
-        (*depth+1)%2,a,b,leaf->parent->listData->head->data->location,leaf->listData->head->data->location );*/
+        if ( !((keyParent->parent->depth)%2) ){ // x axis
+            absDistance = fabs(curRoot_p.x - key.x);
+        }else{
+            absDistance = fabs(curRoot_p.y - key.y);
+        }
+        printf("abs: %f, nearest:%f\n", absDistance, *nearest);
+        if ( absDistance < (*nearest) ){
+            keyParent = keyParent->parent;
+        }else{
+            break;
+        }
+        /*printf("******In compute_nearest, keyParent to key axis(%d) distance:%f, \n nearest%f,keyParent %s***keyParent%s***\n\n",
+        (*depth+1)%2,a,b,keyParent->parent->listData->head->data->location,keyParent->listData->head->data->location );*/
         
     }
-    
-    printf("After while loop, highest node is %s\n", leaf->listData->head->data->location);
-    
+    return keyParent;
     
 }
 
