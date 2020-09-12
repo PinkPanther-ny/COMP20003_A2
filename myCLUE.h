@@ -39,22 +39,20 @@
 #define NOT_FOUND "NOT FOUND"
 #define MAX_LOG_LEN 30
 
-#define INF (99999999)
-
 typedef struct CLUE{
     // Say it's better to store as string type
     char *censusYear;
     char *blockID;
     char *propertyID;
     char *basePropertyID;
-    
+
     char *clueSmallArea;
     char *tradingName;
     char *industryCode;
     char *industryDescription;
     char *xCoord, *yCoord;
     char *location;
-    
+
 }Clue_t;
 
 typedef struct Point{
@@ -66,7 +64,7 @@ typedef struct Point{
 // Function prototypes
 Clue_t *Clue(
     char* censusYear, char* blockID, char* propertyID, char* basePropertyID,
-    char* clueSmallArea, char* tradingName, char* industryCode, char* industryDescription, 
+    char* clueSmallArea, char* tradingName, char* industryCode, char* industryDescription,
     char* xCoord, char* yCoord, char *location
     );
 void putClueInfo(Clue_t *clue, FILE * fp, char *keyWord);
