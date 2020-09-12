@@ -30,7 +30,7 @@ DATA_FILE = data/small.csv
 OUTPUT_FILE = outputfile
 KEYWORD_FILE = queryfile
 
-all: build clean #run show 
+all: build clean run #show 
 
 build: $(PROGRAM)
 

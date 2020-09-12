@@ -142,6 +142,14 @@ KDT_t * createKDT(Clue_t * data, int depth){
     return root;
 }
 
+void freeKDT_Node(KDT_t * root){
+    freeLinkedList(root->listData);
+    free(root->left);
+    free(root->right);
+    // No need to free parent, 
+    // since it will be freed as parent node call free
+}
+
 KDT_t * addToKDT(KDT_t * root, Clue_t * newNode, int * depth){
     
     *depth += 1;
@@ -167,7 +175,6 @@ KDT_t * addToKDT(KDT_t * root, Clue_t * newNode, int * depth){
         root->right->parent = root;
        
     }
-    
     //printf("ROOT\n");
     return root;
     
@@ -189,31 +196,27 @@ int cmp(Clue_t * newData, KDT_t * curRoot, int axis){
     }
 }
 
-void LVR_Print(KDT_t * root, int *depth){
-    *depth += 1;
+/********************************************************************/
+
+void LVR_Print(KDT_t * root){
     if (root == NULL){
-        *depth -= 1;
         return;
     }
     
-    VLR_Print(root->left, depth);
-    printf("At depth %d: ", *depth);
+    VLR_Print(root->left);
+    printf("At depth %d: ", root->depth);
     printList(root->listData);
-    VLR_Print(root->right, depth);
-    *depth -= 1;
+    VLR_Print(root->right);
 }
 
-void VLR_Print(KDT_t * root, int *depth){
-    *depth += 1;
+void VLR_Print(KDT_t * root){
     if (root == NULL){
-        *depth -= 1;
         return;
     }
-    printf("At depth %d: ", *depth);
+    printf("At depth %d: ", root->depth);
     printList(root->listData);
-    VLR_Print(root->left, depth);
-    VLR_Print(root->right, depth);
-    *depth -= 1;
+    VLR_Print(root->left);
+    VLR_Print(root->right);
 }
 
 void LRV_Free(KDT_t * root){
@@ -225,40 +228,47 @@ void LRV_Free(KDT_t * root){
     freeKDT_Node(root);
 }
 
-void freeKDT_Node(KDT_t * root){
-    freeLinkedList(root->listData);
-    free(root->left);
-    free(root->right);
-    // No need to free parent, 
-    // since it will be freed as parent node call free
-}
+/********************************************************************/
 
 // Return the parent node of the key point as if 
 // the key point is in the tree(but not).
 // or Return the node if it is exactly the same to the key point
-KDT_t * searchKDT(KDT_t * root, Point_t key, int axis, int *depth){
+KDT_t * searchKDT(KDT_t * root, Point_t key){
 
     assert(root!=NULL);
-    *depth += 1;
     
-    if(point_cmp(root, key, axis?0:1) == 0){
+    if(point_cmp(root, key, root->depth%2) == 0){
         printf("Search direction: EQUAL\n");
         return root;
         
-    }else if (point_cmp(root, key, axis?0:1) < 0){
+    }else if (point_cmp(root, key, root->depth%2) < 0){
         if(root->left == NULL){
         printf("Search direction: left == NULL\n");return root;}
         printf("Search direction: LEFT\n");
-        return searchKDT(root->left, key, axis?0:1, depth);
+        return searchKDT(root->left, key);
         
     }else{
         if(root->right == NULL){
         printf("Search direction: right == NULL\n");return root;}
         printf("Search direction: RIGHT\n");
-        return searchKDT(root->right, key, axis?0:1, depth);
+        return searchKDT(root->right, key);
        
     }
+}
+
+int point_cmp(KDT_t * curRoot, Point_t key, int axis){
+
+    Point_t curRoot_p = getClueLocation(curRoot->listData->head->data);
     
+    if((key.x == curRoot_p.x) && (key.y == curRoot_p.y)){
+        return 0;
+    }
+    
+    if(!axis){
+        return (key.x - curRoot_p.x);
+    }else{
+        return (key.y - curRoot_p.y);
+    }
     
 }
 
@@ -285,22 +295,6 @@ void compute_nearest(KDT_t * leaf, Point_t key, int *depth, double *nearest){
     
     printf("After while loop, highest node is %s\n", leaf->listData->head->data->location);
     
-    
-}
-
-int point_cmp(KDT_t * curRoot, Point_t key, int axis){
-
-    Point_t curRoot_p = getClueLocation(curRoot->listData->head->data);
-    
-    if((key.x == curRoot_p.x) && (key.y == curRoot_p.y)){
-        return 0;
-    }
-    
-    if(axis){
-        return (key.x - curRoot_p.x);
-    }else{
-        return (key.y - curRoot_p.y);
-    }
     
 }
 

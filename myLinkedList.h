@@ -52,11 +52,11 @@ KDT_t * addToKDT(KDT_t * root, Clue_t * newNode, int * depth);
 
 List_t *pushToKDT(List_t *list, Clue_t *data);
 int cmp(Clue_t * newData, KDT_t * curRoot, int axis);
-void VLR_Print(KDT_t * root, int *depth);
+void LVR_Print(KDT_t * root);
+void VLR_Print(KDT_t * root);
 void LRV_Free(KDT_t * root);
 void freeKDT_Node(KDT_t * root);
-void LVR_Print(KDT_t * root, int *depth);
-KDT_t * searchKDT(KDT_t * root, Point_t key, int axis, int *depth);
+KDT_t * searchKDT(KDT_t * root, Point_t key);
 int point_cmp(KDT_t * curRoot, Point_t key, int axis);
 void compute_nearest(KDT_t * leaf, Point_t key, int *depth, double *nearest);
 List_t * LRV_cmp(KDT_t * root, Point_t key, int *depth, double *nearest);
