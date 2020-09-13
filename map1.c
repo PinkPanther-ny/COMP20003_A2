@@ -26,21 +26,23 @@ main(int argc, char *argv[]) {
     double nearest;
 
     root = readFileToTree(root, dataFile);
-    while (scanf("%lf%*c%lf%*c", &(key.y), &(key.x))!=EOF) {
+    while (scanf("%lf%*c%lf%*c", &(key.x), &(key.y))!=EOF) {
 
         keyParent = NULL;
         result = NULL;
         compareTime = 0;
 
         keyParent = searchKDT(root, key);
+        printf("After searchKDT, key's parent is %s\n", keyParent->listData->head->data->location);
         nearest = distanceTo(
                         key,
                         getClueLocation(keyParent->listData->head->data)
                   );
         keyParent = compute_nearest(keyParent, key, &nearest);
+        printf("After compute nearest, highest key's parent is %s at depth %d\n", keyParent->listData->head->data->location, keyParent->depth);
         result = VLR_search(keyParent, key, &nearest, result, &compareTime);
         fwriteLinkedList(result->listData, fp, key);
-
+        
         printf("%.6f %.6f --> %d\n", key.y, key.x, compareTime);
         printf("%s\n",result->listData->head->data->location);
     }

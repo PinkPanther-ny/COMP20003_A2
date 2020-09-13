@@ -93,8 +93,8 @@ Point_t getClueLocation(Clue_t *data){
     Point_t p;
     char* str = data->location;
     char* pEnd;
-    p.x = strtod (str+1, &pEnd);
-    p.y = strtod (pEnd+1, NULL);
+    p.y = strtod (str+1, &pEnd);
+    p.x = strtod (pEnd+1, NULL);
     return p;
 
 }

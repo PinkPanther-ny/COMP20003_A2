@@ -112,19 +112,23 @@ KDT_t * searchKDT(KDT_t * root, Point_t key){
     assert(root!=NULL);
 
     if(point_cmp(root, key) == 0){
+        printf("Search direction: EQUAL\n");
         return root;
 
     }else if (point_cmp(root, key) < 0){
         if(root->left == NULL){
+            printf("Search direction: left == NULL\n");
             return root;
         }
+        printf("Search direction: LEFT\n");
         return searchKDT(root->left, key);
 
     }else{
         if(root->right == NULL){
+            printf("Search direction: right == NULL\n");
             return root;
         }
-
+        printf("Search direction: RIGHT\n");
         return searchKDT(root->right, key);
 
     }
