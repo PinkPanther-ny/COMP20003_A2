@@ -112,23 +112,23 @@ KDT_t * searchKDT(KDT_t * root, Point_t key){
     assert(root!=NULL);
 
     if(point_cmp(root, key) == 0){
-        printf("Search direction: EQUAL\n");
+        if(DEBUG){printf("Search direction: EQUAL\n");}
         return root;
 
     }else if (point_cmp(root, key) < 0){
         if(root->left == NULL){
-            printf("Search direction: left == NULL\n");
+            if(DEBUG) {printf("Search direction: left == NULL\n");}
             return root;
         }
-        printf("Search direction: LEFT\n");
+        if(DEBUG) {printf("Search direction: LEFT\n");}
         return searchKDT(root->left, key);
 
     }else{
         if(root->right == NULL){
-            printf("Search direction: right == NULL\n");
+            if(DEBUG) {printf("Search direction: right == NULL\n");}
             return root;
         }
-        printf("Search direction: RIGHT\n");
+        if(DEBUG) {printf("Search direction: RIGHT\n");}
         return searchKDT(root->right, key);
 
     }
@@ -174,17 +174,19 @@ KDT_t * VLR_search(KDT_t * keyParent, Point_t key,
         getClueLocation(keyParent->listData->head->data)
     );
 
+    *compareTime += 1;
     if ( curDistance - *nearest <= ROUNDING_ERROR_MARGIN){
-        *compareTime += 1;
+
         *nearest = curDistance;
         result = keyParent;
 
-    }else{
-        *compareTime += 1;
     }
-
-    result = VLR_search(keyParent->left, key, nearest, result, compareTime);
-    result = VLR_search(keyParent->right, key, nearest, result, compareTime);
+    if(fabs(point_cmp(keyParent->left, key))<*nearest){
+        result = VLR_search(keyParent->left, key, nearest, result, compareTime);
+    }
+    if(fabs(point_cmp(keyParent->right, key))<*nearest) {
+        result = VLR_search(keyParent->right, key, nearest, result, compareTime);
+    }
     return result;
 }
 
@@ -205,8 +207,8 @@ int cmp(Clue_t * newData, KDT_t * curRoot, int axis){
     }
 }
 
-int point_cmp(KDT_t * curRoot, Point_t key){
-
+double point_cmp(KDT_t * curRoot, Point_t key){
+    if(curRoot==NULL){return INFINITY;}
     int axis = curRoot->depth%2;
     Point_t curRoot_p = getClueLocation(curRoot->listData->head->data);
 

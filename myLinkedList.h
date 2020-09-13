@@ -9,6 +9,7 @@
 #include <assert.h>
 #include "myCLUE.h"
 
+#define DEBUG 0
 #define K 2
 typedef struct Node Node_t;
 struct Node{
@@ -45,7 +46,7 @@ int linearSearch(char *keyWord, List_t *src, List_t *result);
 void fwriteLinkedList(List_t *src, FILE *fp, Point_t keyPoint);
 
 int cmp(Clue_t * newData, KDT_t * curRoot, int axis);
-int point_cmp(KDT_t * curRoot, Point_t key);
+double point_cmp(KDT_t * curRoot, Point_t key);
 
 KDT_t * addToKDT(KDT_t * root, Clue_t * newNode, int * depth);
 List_t *pushToKDT(List_t *list, Clue_t *data);

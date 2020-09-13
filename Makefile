@@ -25,9 +25,9 @@ cls_cmd:=tput clear
 #DATA_FILE = data/small.csv
 #DATA_FILE = data/datafile
 #DATA_FILE = data/CLUEdata2018_median.csv
-DATA_FILE = data/CLUEdata2018_random.csv
+#DATA_FILE = data/CLUEdata2018_random.csv
 #DATA_FILE = data/CLUEdata2018_sortx.csv
-#DATA_FILE = data/1.csv
+DATA_FILE = data/1.csv
 OUTPUT_FILE = outputfile
 KEYWORD_FILE = queryfile
 
