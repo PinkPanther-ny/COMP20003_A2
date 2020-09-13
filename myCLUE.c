@@ -48,7 +48,7 @@ putClueInfo(Clue_t *clue, FILE * fp, Point_t keyPoint){
         "Industry (ANZSIC4) description: %s || "
         "x coordinate: %s || y coordinate: %s || "
         "Location: %s || \n",
-        keyPoint.y, keyPoint.x,
+        keyPoint.x, keyPoint.y,
         clue -> censusYear, clue -> blockID,
         clue -> propertyID, clue -> basePropertyID,
         clue -> clueSmallArea,
