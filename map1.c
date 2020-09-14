@@ -44,6 +44,8 @@ main(int argc, char *argv[]) {
         result = VLR_search(keyParent, key, &nearest, result, &compareTime);
         if(DEBUG) {printf("Nearest point found at depth %d\n", result->depth);}
         fwriteLinkedList(result->listData, fp, key);
+        
+        compareTime += result->depth;
         printf("%.6f %.6f --> %d\n", key.x, key.y, compareTime);
 
         if(DEBUG) {printf("%s\n", result->listData->head->data->location);}

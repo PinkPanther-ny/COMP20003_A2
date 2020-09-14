@@ -29,7 +29,7 @@ DATA_FILE = data/CLUEdata2018_random.csv
 #DATA_FILE = data/CLUEdata2018_sortx.csv
 #DATA_FILE = data/1.csv
 OUTPUT_FILE = outputfile
-KEYWORD_FILE = queryfile
+KEYWORD_FILE = queryfile1
 
 all: build clean run #show
 
