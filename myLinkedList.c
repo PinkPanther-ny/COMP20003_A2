@@ -181,10 +181,10 @@ KDT_t * VLR_search(KDT_t * keyParent, Point_t key,
         result = keyParent;
 
     }
-    if(fabs(point_cmp(keyParent->left, key))<*nearest ||1){
+    if(fabs(point_cmp(keyParent->left, key))<*nearest){
         result = VLR_search(keyParent->left, key, nearest, result, compareTime);
     }
-    if(fabs(point_cmp(keyParent->right, key))<*nearest ||1) {
+    if(fabs(point_cmp(keyParent->right, key))<*nearest) {
         result = VLR_search(keyParent->right, key, nearest, result, compareTime);
     }
     return result;
